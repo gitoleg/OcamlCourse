@@ -73,3 +73,22 @@ let foo ({name} as x) =
   Printf.printf "%d\n" x.age;
   name
 
+(* Entering Polymorphism *)
+
+type 'a job = {
+  value: 'a;
+  length: 'a -> int
+}
+
+let job1 =
+  {value = 42; length = fun _ -> Sys.int_size; }
+
+let job2 =
+  {value = "hello, world"; length = String.length}
+
+let print j =
+  Printf.printf "length %d" (j.length j.value)
+
+let () =
+  print job1;
+  print job2
