@@ -1,0 +1,20 @@
+How to build: dune build
+Executable : _build/default/bin/run.exe 
+
+The project structure: three libraries and one executable
+
+.
+├── bin
+│   ├── dune
+│   └── run.ml
+├── dune-project
+└── lib
+    ├── data
+    │   ├── dune
+    │   └── mydata.ml
+    ├── printers
+    │   ├── dune
+    │   └── myprinters.ml
+    └── types
+        ├── dune
+        └── mytypes.ml
