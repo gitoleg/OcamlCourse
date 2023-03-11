@@ -17,7 +17,6 @@ module MyBaseList = struct
     | Nil -> ()
     | Cons (x,xs) -> f x; iter f xs
 
-
   let next = function
     | Nil -> None
     | Cons (x,xs) -> Some (x,xs)

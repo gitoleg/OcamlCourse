@@ -1,30 +1,25 @@
 
 module type ListT = sig
 
-  type 'a t  =
-    | Empty
-    | Cons of 'a * 'a t
-
+  type 'a t
 
   val empty : 'a t
   val add : 'a -> 'a t -> 'a t
   val head : 'a t -> 'a
-
 end
 
 
-module MyList = struct
+module MyList : ListT = struct
 
   type 'a t =
-    | Empty
     | Cons of 'a * 'a t
 
-  let empty = Empty
+  let empty = failwith ""
   let add x t = Cons (x,t)
 
-  let head = function
-    | Empty -> failwith "list is empty"
+  let head = function  
     | Cons (x, _) -> x
+
 
 end
 

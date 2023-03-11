@@ -1,5 +1,4 @@
-let rec sum xs =
-  match xs with
+let rec sum = function
   | [] -> 0
   | x :: xs -> x + sum xs
 
@@ -7,6 +6,7 @@ let is_empty xs =
   match xs with
   | [] -> true
   | _ -> false
+
 (* OR *)
 let is_empty xs = xs = []
 
@@ -34,7 +34,7 @@ let rec length xs =
   | _ :: xs -> 1 + length xs
 
 
-let test_length xs n =
+let test_length xs n = 
   match length xs with
   | 0 -> false
   | n -> true
@@ -58,4 +58,8 @@ let test_fold xs =
     printf "\n";
     x :: acc in
   List.fold_right f xs []
+
+
+
+
 
