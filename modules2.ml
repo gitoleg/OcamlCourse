@@ -1,6 +1,7 @@
 
 module type ListInterface = sig
   type 'a t
+  type u
   val empty : 'a t
   val add : 'a -> 'a t -> 'a t
   val head : 'a t -> 'a
@@ -9,8 +10,9 @@ end
 module type ListT = sig
 
   type 'a t
+  type z
 
-  include ListInterface with type 'a t := 'a t
+  include ListInterface with type 'a t := 'a t and type u := z
 
   module Debug : sig
     val print :
@@ -24,6 +26,8 @@ module MyList : ListT = struct
   type 'a t =
     | Empty
     | Cons of 'a * 'a t
+
+  type z
 
   let empty = Empty
   let add x t = Cons (x,t)
@@ -56,9 +60,15 @@ module type Printable = sig
 end
 
 
-module type Both = sig
-  include Comparable with type t = int
+module type CompareableAndPrintable = sig
+  include Comparable
   include Printable with type t := t
+end
+
+
+module type Both = sig
+  include Comparable with type t = int 
+  include Printable with type t := t 
 end
 
 module F : Both = struct
@@ -83,7 +93,7 @@ module B = struct
   type y = float
 end
 
-module type T1 = T with module A := B
+module type T1 = T with module A = B 
 
 
 (* module types substitution in module types *)

@@ -9,17 +9,10 @@ module MyBaseList = struct
   let empty = Nil
   let add x xs = Cons (x,xs)
 
-  let rec len = function
-    | Nil -> 0
-    | Cons (_, xs) -> 1 + len xs
-
-  let rec iter f = function
-    | Nil -> ()
-    | Cons (x,xs) -> f x; iter f xs
-
   let next = function
     | Nil -> None
     | Cons (x,xs) -> Some (x,xs)
+
 end
 
 module MyBaseStack = struct
@@ -36,14 +29,6 @@ module MyBaseStack = struct
     | [] -> failwith "stack is empty"
     | x :: _ -> x
 
-  let rec len = function
-    | [] -> 0
-    | _ :: xs -> 1 + len xs
-
-  let rec iter f = function
-    | [] -> ()
-    | x :: xs -> f x; iter f xs
-
   let next = function
     | [] -> None
     | x :: xs -> Some (x,xs)
@@ -59,31 +44,46 @@ module Make(B : Base) = struct
 
   let rec len xs = match next xs with
     | None -> 0
-    | Some (_, xs) -> 1 + len xs
+    | Some (x,xs) -> 1 + len xs
 
   let rec iter f xs = match next xs with
     | None -> ()
-    | Some (x, xs) -> f x; iter f xs
+    | Some (x,xs) -> f x; iter f xs
+end
+
+module MyList = struct
+  include MyBaseList
+  include Make(MyBaseList)
+end
+
+module MyStack = struct
+  include MyBaseStack
+  include Make(MyBaseStack)
 end
 
 
-module MyListT = struct
-
-  type 'a t =
-    | Nil
-    | Cons of 'a * 'a t 
-
-  let empty = Nil
-  let add x xs = Cons (x,xs)
-
-  let next = function
-    | Nil -> None
-    | Cons (x, xs) -> Some (x, xs)
-
+module type T = sig
+  type t
+  val x : t
 end
 
-module MyList = Make(MyBaseList)
-module MyStack = Make(MyBaseStack)
+module A = struct
+  type t = int
+  let x = 42
+end
 
+module B = struct
+  type t = float
+  let x = 36.6
+end
 
+module Pair(X : T)(Y : T) = struct
+  type t = X.t * Y.t
+  let x = X.x, Y.x
+end
+
+module Pair = Pair(A)(struct
+    type t = float
+    let x = 36.6
+  end)
 

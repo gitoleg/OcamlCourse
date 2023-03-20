@@ -64,9 +64,19 @@ module type T2 = sig
 end
 
 
-let polyprinter (type a b)
+let polyprinter2 (type a b)
     (module M : T2 with type t = a
                     and type u = b)
     (x : a)
     (y : b) =
   M.print x y
+
+
+
+let anonymous () =
+  let m = (module struct
+    type t = int
+    let default = 42
+    let print = printf "%d"
+  end : T with type t = int) in
+  polyprinter m 42

@@ -1,6 +1,15 @@
 
 
-module ListBasic = struct 
+module type ListT = sig
+
+  type 'a t
+
+  val empty : 'a t
+  val add : 'a -> 'a t -> 'a t
+  val head : 'a t -> 'a
+end
+
+module ListBasic  = struct 
 
   type 'a t =
     | Empty
@@ -14,8 +23,9 @@ module ListBasic = struct
     | Cons (x, _) -> x
 end
 
-module MyList  = struct
+module MyList = struct
   include ListBasic
+  include List
 
   module Debug = struct
     let print pp xs =
@@ -25,11 +35,10 @@ module MyList  = struct
         | Empty -> printf "\n" in
       print xs 
   end
-
 end
 
 (* Submodule usage  *)
 let x = MyList.(add 4 empty)
 let pp ch x = Printf.fprintf ch "%d" x
-let () = MyList.Debug.print pp x
+(* let () = MyList.Debug.print pp x *)
 
