@@ -9,22 +9,24 @@ module type ListT = sig
 end
 
 
-module MyList : ListT = struct
+module MyList = struct
 
   type 'a t =
+    | Nil 
     | Cons of 'a * 'a t
 
-  let empty = failwith ""
+  let empty = Nil
   let add x t = Cons (x,t)
 
   let head = function  
     | Cons (x, _) -> x
+    | Nil -> failwith "list is empty"
 
 
 end
 
 (* Basic usage *)
-let x = MyList.(Cons (42, Empty))
+let x = MyList.(Cons (42, Nil))
 let x = MyList.empty
 let x = MyList.add 4 MyList.empty
 let x = MyList.(add 4 empty)
