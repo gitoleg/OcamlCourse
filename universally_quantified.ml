@@ -1,4 +1,4 @@
-
+open Printf
 
 
 
@@ -9,7 +9,6 @@ type 'a t =
 module Problems = struct 
 
   (* High order polymorphic functions  *)
-
 
   let len f x y = f x + f y
 
@@ -29,18 +28,14 @@ end
 
 module Solution = struct
 
-  type f = { f: 'a. 'a -> int }
+  type f = { f: 'a. 'a list -> int }
 
   let len x = x.f [1;2;3] + x.f ['a'; 'b'; 'c']
+
+  let () = printf "len %d\n" @@ len {f = List.length}
 
   let rec depth: 'a. 'a t -> int = function
     | List _ -> 1
     | Nested x -> 1 + depth x
 
 end
-
-let sum: 'a -> 'b -> 'c = fun x y -> x + y
-
-
-let sum: 'a 'b 'c. 'a -> 'b -> 'c =
-  fun x y -> x + y
