@@ -24,12 +24,11 @@ let eq x y : eq option =
 
 let f x y = match eq x y with
   | None -> ""
-  | Some x -> to_str (x :> cmp)
+  | Some x -> to_str (x :> cmp) 
 
 
 type a = [ `A | `B ]
-type b = [ `A | `B | `C ]
-
+type b = [ a | `C ]
 
 let f = function
   | `C -> "type b"
